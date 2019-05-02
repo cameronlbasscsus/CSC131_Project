@@ -47,4 +47,6 @@ public class Server {
 	//Read: Read info about a tag
 	//Update: Update tag status
 	//Delete: Delete tag from database
+	
+	//this is a test comment from Sean to test commit
 }
