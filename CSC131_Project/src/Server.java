@@ -115,11 +115,16 @@ public class Server {
 	public void ReportTag(String TagInfo) {
 	// Given some information from a tag "<ID> <GPSLat> <GPSLon>", will send an email with GPS for the relevant Tag ID.
 		String[] Info = TagInfo.split(" "); // Parse Info "<ID> <GPSLat> <GPSLon>"
-		int TagID = Integer.parseInt(Info[0]);
+		int foundTagID = Integer.parseInt(Info[0]);
 		String Record = read(Integer.parseInt(Info[0]));
 		String[] RecordInfo = Record.split(" ");
-		if(true) { // If item record indicates the item is lost, send report email.
-			System.out.println("Emailing " + RecordInfo[0] + " that ... " );
+		String email = RecordInfo[0];
+		RecordInfo[0]="";
+		int TagID = Integer.parseInt(RecordInfo[1]);
+		RecordInfo[1]="";
+		String ItemDescription = String.join(" ", RecordInfo).trim(); 
+		if(TagID < 0) { // If item record indicates the item is lost, send report email.
+			System.out.println("Emailing " + RecordInfo[0] + " that " + ItemDescription + " was found.");
 		}
 	}
 	//this is a test comment from Sean to test commit 123 test 
