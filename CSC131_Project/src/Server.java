@@ -3,7 +3,8 @@ import java.util.*;
 public class Server {
 	public static void main(String[] args) {
 		Server s = new Server();
-		s.create("ass@butts.com",1234,"blue jacket");
+		s.create("cameronlbass@csus.edu", 1234, "red jacket");
+		s.create("ass@butts.com",1234,"blue jacket"); // Will not register identical item tags
 	}
 	String ServerDataFile = "db.txt";
 	// CRUD: Create, Read, Update, Delete
@@ -19,7 +20,7 @@ public class Server {
 				System.out.println("Log: " + "Appending Record to DB file.");
 				BufferedWriter fout = new BufferedWriter(new FileWriter(ServerDataFile,true));
 				fout.write(Record);
-				fout.write(13); // 
+				fout.write(13);
 				fout.write(10);
 				fout.close();
 			} catch(Exception e) {
@@ -38,7 +39,7 @@ public class Server {
 			BufferedReader fin = new BufferedReader(new FileReader(ServerDataFile));
 			while((Temp=fin.readLine()) != null){
 				Temps = Temp.split(" ");
-				if(Temps[1] != null) if(Math.abs(TagID) == Math.abs(Integer.parseInt(Temps[1]))) rval=Temp;
+				if(Temps[1] != null && Math.abs(TagID) == Math.abs(Integer.parseInt(Temps[1]))) rval=Temp;
 			}
 			fin.close();
 		} catch (Exception e) {
@@ -48,7 +49,36 @@ public class Server {
 	}
 	//Update: Update tag status
 	public void update(int TagID, boolean IsLost) {
-		
+		// Read all records for the target record
+		LinkedList<String> Records = new LinkedList<String>();
+		String Temp;
+		String[] Temps;
+		try {
+			BufferedReader fin = new BufferedReader(new FileReader(ServerDataFile));
+			while((Temp=fin.readLine()) != null){
+				Temps = Temp.split(" ");
+				if(Temps[1] != null && Math.abs(TagID) == Math.abs(Integer.parseInt(Temps[1]))) {
+					
+				}
+			}
+			fin.close();
+		} catch (Exception e) {
+			System.out.println("Exception reading: " + e.getMessage());
+		}
+		// Write back all records with the modified record
+		try {
+			System.out.println("Log: " + "Appending Record to DB file.");
+			BufferedWriter fout = new BufferedWriter(new FileWriter(ServerDataFile));
+			for(String Record : Records) {
+				fout.write(Record);
+				fout.write(13);
+				fout.write(10);
+			}
+			fout.close();
+		} catch(Exception e) {
+			System.out.println("Exception writing: " + e.getMessage());
+			return;
+		}
 	}
 	//Delete: Delete tag from database
 	public void delete(int TagID) {
