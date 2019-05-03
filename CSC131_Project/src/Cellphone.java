@@ -18,16 +18,16 @@ public class Cellphone {
 	IT = nearby.Transmit();
 	
 	String[] idInfo = IT.trim().split("\\st"); 		//to take care of a leading space
-	if(idInfo[0] = null ) {
+	if(idInfo[0] == null) {
 		System.out.println("Error: No Item Tag\n");
 	}
-	else if(idInfor[0] != null{
+	else if(idInfo[0] != null){
 		
 		//TagLoc = Math.sqrt(idInfo[1]^2 + idInfo[2]^2);
 		double tagLat = Double.parseDouble(idInfo[1]);
 		double tagLon = Double.parseDouble(idInfo[2]);
 		
-		proximity = disToTag(GPSLat, GPSlon, tagLat, tagLon);
+		double proximity = disToTag(GPSLat, GPSLon, tagLat, tagLon);
 		
 		//need to test what values are "close"
 		if(proximity <= 100) {
@@ -45,9 +45,10 @@ public class Cellphone {
 		double dLat = Math.toRadians(CellLat - TagLat);
 		double dLon = Math.toRadians(CellLon - TagLon);
 
-		  CellLat = degreesToRadians(CellLat);
+		  CellLat = Math.toRadians(CellLat);
 		  TagLat = Math.toRadians(TagLat);
-
+		  
+		  
 	    double  a = Math.sin(dLat/2) * Math.sin(dLat/2) +
 		          Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
 		double  c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
