@@ -1,1 +1,2 @@
-cameronlbass@csus.edu 1234 blue jacket
+cameronlbass@csus.edu 1111 dell 6000 laptop
+cameronlbass@csus.edu -1234 red jacket
