@@ -15,7 +15,7 @@ public class Server {
 	public void create(String email, int TagID, String ItemDescription) {
 		String Record = email + " " + Integer.toString(TagID) + " " + ItemDescription;
 		//Read all entries, scan for existing tag. If tag does not exist, append new record to file.
-		if(this.read(TagID) == null) {
+		if(read(TagID) == null) {
 			try {
 				System.out.println("Log: " + "Appending Record to DB file.");
 				BufferedWriter fout = new BufferedWriter(new FileWriter(ServerDataFile,true));
@@ -25,7 +25,6 @@ public class Server {
 				fout.close();
 			} catch(Exception e) {
 				System.out.println("Exception writing: " + e.getMessage());
-				return;
 			}
 		}
 	}
@@ -53,18 +52,46 @@ public class Server {
 		LinkedList<String> Records = new LinkedList<String>();
 		String Temp;
 		String[] Temps;
+		int dummyTagID;
 		try {
 			BufferedReader fin = new BufferedReader(new FileReader(ServerDataFile));
 			while((Temp=fin.readLine()) != null){
 				Temps = Temp.split(" ");
-				if(Temps[1] != null && Math.abs(TagID) == Math.abs(Integer.parseInt(Temps[1]))) {
-					
+				if(Temps[1] != null && Math.abs(TagID) == Math.abs((dummyTagID = Integer.parseInt(Temps[1])))) {
+					Temps[1] = IsLost ? Integer.toString(-dummyTagID) : Integer.toString(dummyTagID) ;
+					Temp = String.join(" ", Temps);
+				}
+				Records.add(Temp);
+			}
+			fin.close();
+		} catch (Exception e) {
+			System.out.println("Exception reading: " + e.getMessage());
+		}
+		// Write back all records with the modified record
+		writeback(Records);
+	}
+	//Delete: Delete tag from database
+	public void delete(int TagID) {
+		// Read all records for the target record
+		LinkedList<String> Records = new LinkedList<String>();
+		String Temp;
+		String[] Temps;
+		try {
+			BufferedReader fin = new BufferedReader(new FileReader(ServerDataFile));
+			while((Temp=fin.readLine()) != null){
+				Temps = Temp.split(" ");
+				if(Temps[1] != null && Math.abs(TagID) != Math.abs(Integer.parseInt(Temps[1]))) {
+					Records.add(Temp);
 				}
 			}
 			fin.close();
 		} catch (Exception e) {
 			System.out.println("Exception reading: " + e.getMessage());
 		}
+		// Write back all records with the modified record
+		writeback(Records);
+	}
+	private void writeback(LinkedList<String> Records) {
 		// Write back all records with the modified record
 		try {
 			System.out.println("Log: " + "Appending Record to DB file.");
@@ -74,21 +101,22 @@ public class Server {
 				fout.write(13);
 				fout.write(10);
 			}
+			fout.flush();
 			fout.close();
 		} catch(Exception e) {
 			System.out.println("Exception writing: " + e.getMessage());
-			return;
 		}
 	}
-	//Delete: Delete tag from database
-	public void delete(int TagID) {
-		
-	}
-	private void UpdateDeleteCommon() {
-		
-	}
 	public void ReportTag(String TagInfo) {
-		
+		// Given some information from a tag (ItemTag.Transmit?), will send an email with GPS for the relevant Tag ID.
+		// Parse Info "<ID> <GPSLat> <GPSLon>"
+		String[] Info = TagInfo.split(" ");
+		int TagID = Integer.parseInt(Info[0]);
+		String Record = read(Integer.parseInt(Info[0]));
+		String[] RecordInfo = Record.split(" ");
+		if(true) { // If item record indicates the item is lost, send report email.
+			System.out.println("Emailing " + RecordInfo[0] + " that ... " );
+		}
 	}
 	//this is a test comment from Sean to test commit 123 test 
 }

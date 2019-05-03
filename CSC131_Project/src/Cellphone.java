@@ -14,7 +14,8 @@ public class Cellphone {
 	GPSLat = -90.0 + Math.random() * 180.0;
 	GPSLon = -180.0 + Math.random() * 360;
 	
-	IT = ItemTag.Transmit();
+	ItemTag nearby = new ItemTag(1234);
+	IT = nearby.Transmit();
 	
 	String[] idInfo = IT.trim().split("\\st"); 		//to take care of a leading space
 	if(idInfo[0] = null ) {
