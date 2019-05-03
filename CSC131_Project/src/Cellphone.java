@@ -23,11 +23,14 @@ public class Cellphone {
 	else if(idInfor[0] != null{
 		
 		//TagLoc = Math.sqrt(idInfo[1]^2 + idInfo[2]^2);
-		proximity = disToTag(GPSLat, GPSLon, idInfo[1], idInfo[2]);
+		double tagLat = Double.parseDouble(idInfo[1]);
+		double tagLon = Double.parseDouble(idInfo[2]);
 		
-		//test value
+		proximity = disToTag(GPSLat, GPSlon, tagLat, tagLon);
+		
+		//need to test what values are "close"
 		if(proximity <= 100) {
-			//update server that a tag is nearby
+			//tag is close, update server
 		}
 	}
 	
