@@ -47,8 +47,17 @@ public class Server {
 		return rval;
 	}
 	//Update: Update tag status
+	public void update(int TagID, boolean IsLost) {
+		
+	}
 	//Delete: Delete tag from database
-	public void ReportTag(int TagID) {
+	public void delete(int TagID) {
+		
+	}
+	private void UpdateDeleteCommon() {
+		
+	}
+	public void ReportTag(String TagInfo) {
 		
 	}
 	//this is a test comment from Sean to test commit 123 test 
