@@ -35,7 +35,7 @@ public class Server {
 				System.out.println("Log: " + "Appending Record to DB file.");
 				BufferedWriter fout = new BufferedWriter(new FileWriter(ServerDataFile,true));
 				fout.write(Record);
-				fout.write(13);
+				fout.write(13); // 
 				fout.write(10);
 				fout.close();
 			} catch(Exception e) {
@@ -45,6 +45,26 @@ public class Server {
 		}
 	}
 	//Read: Read info about a tag
+	String read(int TagID) {
+		String Temp, rval=null;
+		String[] Temps;
+		//Read all entries, scan for existing tag. If tag does not exist, return null.
+		try {
+			System.out.println("Log: " + "Reading DB file.");
+			BufferedReader fin = new BufferedReader(new FileReader(ServerDataFile));
+			while((Temp=fin.readLine()) != null){
+				Temps = Temp.split(" ");
+				if(Temps[1] != null) if(Math.abs(TagID) == Math.abs(Integer.parseInt(Temps[1]))) rval=Temp;
+			}
+			fin.close();
+		} catch (Exception e) {
+			System.out.println("Exception reading: " + e.getMessage());
+		}
+		return rval;
+	}
 	//Update: Update tag status
 	//Delete: Delete tag from database
+	void ReportTag(int TagID) {
+		
+	}
 }
