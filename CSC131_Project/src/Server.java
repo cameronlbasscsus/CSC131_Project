@@ -4,7 +4,7 @@ public class Server {
 	public static void main(String[] args) {
 		Server s = new Server();
 		s.create("cameronlbass@csus.edu", 1234, "red jacket");
-		s.create("ass@butts.com",1234,"blue jacket"); // Will not register identical item tags
+		s.create("ass@butts.com", 1234, "blue jacket"); // Will not register identical item tags
 	}
 	String ServerDataFile = "db.txt";
 	// CRUD: Create, Read, Update, Delete
@@ -13,15 +13,16 @@ public class Server {
 		create(email, TagID, "");
 	}
 	public void create(String email, int TagID, String ItemDescription) {
+	// Read all entries, scan for existing tag and quit if found. If tag does not exist, append new record to file.
 		String Record = email + " " + Integer.toString(TagID) + " " + ItemDescription;
-		//Read all entries, scan for existing tag. If tag does not exist, append new record to file.
 		if(read(TagID) == null) {
 			try {
 				System.out.println("Log: " + "Appending Record to DB file.");
-				BufferedWriter fout = new BufferedWriter(new FileWriter(ServerDataFile,true));
+				BufferedWriter fout = new BufferedWriter(new FileWriter(ServerDataFile,true)); // Open file for writing in Append mode
 				fout.write(Record);
 				fout.write(13);
 				fout.write(10);
+				fout.flush();
 				fout.close();
 			} catch(Exception e) {
 				System.out.println("Exception writing: " + e.getMessage());
@@ -48,6 +49,7 @@ public class Server {
 	}
 	//Update: Update tag status
 	public void update(int TagID, boolean IsLost) {
+	// Update the record of TagID, where a negative TagID flags a status of "lost"
 		// Read all records for the target record
 		LinkedList<String> Records = new LinkedList<String>();
 		String Temp;
@@ -72,6 +74,7 @@ public class Server {
 	}
 	//Delete: Delete tag from database
 	public void delete(int TagID) {
+	// Removes the record indicated by TagID
 		// Read all records for the target record
 		LinkedList<String> Records = new LinkedList<String>();
 		String Temp;
@@ -81,6 +84,7 @@ public class Server {
 			while((Temp=fin.readLine()) != null){
 				Temps = Temp.split(" ");
 				if(Temps[1] != null && Math.abs(TagID) != Math.abs(Integer.parseInt(Temps[1]))) {
+					//Record to be deleted is not added
 					Records.add(Temp);
 				}
 			}
@@ -88,11 +92,12 @@ public class Server {
 		} catch (Exception e) {
 			System.out.println("Exception reading: " + e.getMessage());
 		}
-		// Write back all records with the modified record
+		// Write back all records except the modified record
 		writeback(Records);
 	}
 	private void writeback(LinkedList<String> Records) {
-		// Write back all records with the modified record
+	// Utility function for update and delete.
+		// Write back all records with the modified/deleted record
 		try {
 			System.out.println("Log: " + "Appending Record to DB file.");
 			BufferedWriter fout = new BufferedWriter(new FileWriter(ServerDataFile));
@@ -108,9 +113,8 @@ public class Server {
 		}
 	}
 	public void ReportTag(String TagInfo) {
-		// Given some information from a tag (ItemTag.Transmit?), will send an email with GPS for the relevant Tag ID.
-		// Parse Info "<ID> <GPSLat> <GPSLon>"
-		String[] Info = TagInfo.split(" ");
+	// Given some information from a tag "<ID> <GPSLat> <GPSLon>", will send an email with GPS for the relevant Tag ID.
+		String[] Info = TagInfo.split(" "); // Parse Info "<ID> <GPSLat> <GPSLon>"
 		int TagID = Integer.parseInt(Info[0]);
 		String Record = read(Integer.parseInt(Info[0]));
 		String[] RecordInfo = Record.split(" ");
