@@ -3,7 +3,6 @@ public class Cellphone {
 	//Listen for tags
 	private double GPSLat;
 	private double GPSLon;
-	//private double TagLoc;
 	
 	public void getTagInfo(String IT) {
 	
@@ -14,10 +13,10 @@ public class Cellphone {
 	GPSLat = -90.0 + Math.random() * 180.0;
 	GPSLon = -180.0 + Math.random() * 360;
 	
-	IT = ItemTag.Transmit();
+	IT = ItemTag.Transmit();						
 	
 	String[] idInfo = IT.trim().split("\\st"); 		//to take care of a leading space
-	if(idInfo[0] = null ) {
+	if(idInfo[0] == null ) {
 		System.out.println("Error: No Item Tag\n");
 	}
 	else if(idInfo[0] != null){
@@ -39,6 +38,8 @@ public class Cellphone {
 	//Update status of a tag
 }
 	//find distance between cellphone and tag
+	//This function uses the haversine formula to calculate distance over the Earth's surface
+	//the distance is given as a straight line
 	private double disToTag(double CellLat, double CellLon, double TagLat, double TagLon) {
 		
 		int earthRadiusKm = 6371;
