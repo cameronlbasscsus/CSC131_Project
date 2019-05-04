@@ -14,11 +14,10 @@ public class Cellphone {
 	GPSLat = -90.0 + Math.random() * 180.0;
 	GPSLon = -180.0 + Math.random() * 360;
 	
-	ItemTag nearby = new ItemTag(1234);
-	IT = nearby.Transmit();
+	IT = ItemTag.Transmit();
 	
 	String[] idInfo = IT.trim().split("\\st"); 		//to take care of a leading space
-	if(idInfo[0] == null) {
+	if(idInfo[0] = null ) {
 		System.out.println("Error: No Item Tag\n");
 	}
 	else if(idInfo[0] != null){
@@ -27,11 +26,13 @@ public class Cellphone {
 		double tagLat = Double.parseDouble(idInfo[1]);
 		double tagLon = Double.parseDouble(idInfo[2]);
 		
-		double proximity = disToTag(GPSLat, GPSLon, tagLat, tagLon);
+		proximity = disToTag(GPSLat, GPSlon, tagLat, tagLon);
 		
 		//need to test what values are "close"
 		if(proximity <= 100) {
 			//tag is close, update server
+			Server.ReportTag(IT);
+			
 		}
 	}
 	
@@ -45,10 +46,9 @@ public class Cellphone {
 		double dLat = Math.toRadians(CellLat - TagLat);
 		double dLon = Math.toRadians(CellLon - TagLon);
 
-		  CellLat = Math.toRadians(CellLat);
+		  CellLat = degreesToRadians(CellLat);
 		  TagLat = Math.toRadians(TagLat);
-		  
-		  
+
 	    double  a = Math.sin(dLat/2) * Math.sin(dLat/2) +
 		          Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
 		double  c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
