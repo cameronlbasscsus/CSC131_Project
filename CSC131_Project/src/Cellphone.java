@@ -21,7 +21,6 @@ public class Cellphone {
 	}
 	else if(idInfo[0] != null){
 		
-		//TagLoc = Math.sqrt(idInfo[1]^2 + idInfo[2]^2);
 		double tagLat = Double.parseDouble(idInfo[1]);
 		double tagLon = Double.parseDouble(idInfo[2]);
 		
