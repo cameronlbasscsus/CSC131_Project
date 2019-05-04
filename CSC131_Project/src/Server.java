@@ -18,14 +18,16 @@ public class Server {
 //		
 //	}
 	String ServerDataFile = "db.txt";
-	// CRUD: Create, Read, Update, Delete
-	//Create: Register new tag with owner info.
-	public void create(String email, int TagID) {
+	public boolean create(String email, int TagID) {
 		System.out.println("Log: " + "create email id");
-		create(email, TagID, "");
+		return create(email, TagID, "");
 	}
-	public void create(String email, int TagID, String ItemDescription) {
-	// Read all entries, scan for existing tag and quit if found. If tag does not exist, append new record to file.
+	public boolean create(String email, int TagID, String ItemDescription) {
+		/* Part of database CRUD, Create will create a new record consisting 
+		 * of "<String: email> <int: TagID> <String: ItemDescription>"
+		 * with the requirement that the TagID is unique. If the given TagID
+		 * is not unique, the record will not be added and return false.
+		 */
 		System.out.println("Log: " + "create email id desc");
 		String Record = email + " " + Integer.toString(TagID) + " " + ItemDescription;
 		if(read(TagID) == null) {
@@ -37,13 +39,19 @@ public class Server {
 				fout.write(10);
 				fout.flush();
 				fout.close();
+				return true;
 			} catch(Exception e) {
 				System.out.println("Exception writing: " + e.getMessage());
 			}
 		}
+		return false;
 	}
-	//Read: Read info about a tag
 	public String read(int TagID) {
+		/* Part of databse CRUD, Read will find a record with a matching TagID.
+		 * The search will ignore sign, and therefore will ignore whether the TagID
+		 * indicates the status of the item. If there is no matching record, 
+		 * a null value will be returned.
+		 */
 		System.out.println("Log: " + "read id");
 		String Temp, rval=null;
 		String[] Temps;
@@ -63,7 +71,11 @@ public class Server {
 	}
 	//Update: Update tag status
 	public void update(int TagID, boolean IsLost) {
-	// Update the record of TagID, where a negative TagID flags a status of "lost"
+		/* Part of databse CRUD, Update will change the sign on an indicated TagID.
+		 * A negative value indicates that the item has been reported lost, whereas
+		 * a positive value indicates that the item has not been reported lost or
+		 * was reported as recovered.
+		 */
 		System.out.println("Log: " + "update");
 		// Read all records for the target record
 		LinkedList<String> Records = new LinkedList<String>();
@@ -90,7 +102,8 @@ public class Server {
 	}
 	//Delete: Delete tag from database
 	public void delete(int TagID) {
-	// Removes the record indicated by TagID
+		/* Part of database CRUD, Delete removes a record from the database.
+		 */
 		System.out.println("Log: " + "delete");
 		// Read all records for the target record
 		LinkedList<String> Records = new LinkedList<String>();
@@ -114,7 +127,7 @@ public class Server {
 		writeback(Records);
 	}
 	private void writeback(LinkedList<String> Records) {
-	// Utility function for update and delete.
+		// Helper function for update and delete.
 		System.out.println("Log: " + "writeback");
 		// Write back all records with the modified/deleted record
 		try {
@@ -132,7 +145,11 @@ public class Server {
 		}
 	}
 	public void ReportTag(String TagInfo) {
-	// Given some information from a tag "<ID> <GPSLat> <GPSLon>", will send an email with GPS for the relevant Tag ID.
+		/* Part of the Server utility functions,
+		 * ReportTag is invoked by a cellphone that has received a tag transmission.
+		 * The TagID is processed, and if the tag has been reported missing,
+		 * an email with the relevant information is sent.
+		 */
 		String[] Info = TagInfo.split(" "); // Parse Info "<ID> <GPSLat> <GPSLon>"
 		int foundTagID = Integer.parseInt(Info[0]);
 		String Record = read(foundTagID);
