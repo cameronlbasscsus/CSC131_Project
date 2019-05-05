@@ -3,6 +3,7 @@ public class Cellphone {
 	//Listen for tags
 	private double GPSLat;
 	private double GPSLon;
+	private double proximity;
 	
 	public void getTagInfo(String IT) {
 	
@@ -24,7 +25,7 @@ public class Cellphone {
 		double tagLat = Double.parseDouble(idInfo[1]);
 		double tagLon = Double.parseDouble(idInfo[2]);
 		
-		proximity = disToTag(GPSLat, GPSlon, tagLat, tagLon);
+		proximity = disToTag(GPSLat, GPSLon, tagLat, tagLon);
 		
 		//need to test what values are "close"
 		if(proximity <= 100) {
@@ -50,7 +51,7 @@ public class Cellphone {
 		  TagLat = Math.toRadians(TagLat);
 
 	    double  a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-		          Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(CallLat) * Math.cos(TagLat); 
+		          Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(CellLat) * Math.cos(TagLat); 
 		double  c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
 		return earthRadiusKm * c;
 		
