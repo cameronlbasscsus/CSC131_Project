@@ -21,12 +21,14 @@ public class Cellphone {
 		GPSLat = -90.0 + Math.random() * 180.0;
 		GPSLon = -180.0 + Math.random() * 360;					
 		
-		String[] idInfo = IT.trim().split(" "); 		//to take care of a leading space
+		//.trim() to take care of a leading/ending space just in case
+		//.split puts IT's data (ID LAT LON) into an array
+		String[] idInfo = IT.trim().split(" ");
 //		for(String e : idInfo) {
 //			System.out.println("Debug: " + e);
 //		}
 		
-		if(idInfo[0] == null ) {
+		if(idInfo[0] == null ) {		//if theres no id tag
 			System.out.println("Error: No Item Tag\n");
 		}
 		else if(idInfo[0] != null){

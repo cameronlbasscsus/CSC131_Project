@@ -17,35 +17,34 @@ public class Server {
 //		s.delete(1234); // Item ID 1234 tag expired? 
 //		
 //	}
-	String ServerDataFile = "db.txt";
-	public boolean create(String email, int TagID) {
-		//System.out.println("Log: " + "create email id");
-		return create(email, TagID, "");
-	}
+	
+	String ServerDataFile = "db.txt";				//database file
 	public boolean create(String email, int TagID, String ItemDescription) {
 		/* Part of database CRUD, Create will create a new record consisting 
 		 * of "<String: email> <int: TagID> <String: ItemDescription>"
 		 * with the requirement that the TagID is unique. If the given TagID
 		 * is not unique, the record will not be added and return false.
+		 * Default val of ItemDescription is preferred to be "".
 		 */
 		//System.out.println("Log: " + "create email id desc");
 		String Record = email + " " + Integer.toString(TagID) + " " + ItemDescription;
-		if(read(TagID) == null) {
+		if(read(TagID) == null) {	//if there isn't a matching record
 			try {
 				//System.out.println("Log: " + "Appending Record to DB file.");
 				BufferedWriter fout = new BufferedWriter(new FileWriter(ServerDataFile,true)); // Open file for writing in Append mode
-				fout.write(Record);
-				fout.write(13);
-				fout.write(10);
-				fout.flush();
-				fout.close();
-				return true;
+				fout.write(Record);		//writes <email> + <ID> + <description>
+				fout.write(13);			//essentially \r
+				fout.write(10);			//essentially \n
+				fout.flush();			//flushes output stream
+				fout.close();			//closes writing to file
+				return true;			//writing record to file worked
 			} catch(Exception e) {
 				System.out.println("Exception writing: " + e.getMessage());
 			}
 		}
 		return false;
 	}
+	
 	public String read(int TagID) {
 		/* Part of databse CRUD, Read will find a record with a matching TagID.
 		 * The search will ignore sign, and therefore will ignore whether the TagID
@@ -59,8 +58,9 @@ public class Server {
 		try {
 			//System.out.println("Log: " + "Reading DB file.");
 			BufferedReader fin = new BufferedReader(new FileReader(ServerDataFile));
-			while((Temp=fin.readLine()) != null){
-				Temps = Temp.split(" ");
+			while((Temp=fin.readLine()) != null){	//the line has stuff
+				Temps = Temp.split(" ");			//array of strings of the line info
+				//if there is a tag id and its not lost, set record val to Temp (line info)
 				if(Temps[1] != null && Math.abs(TagID) == Math.abs(Integer.parseInt(Temps[1]))) rval=Temp;
 			}
 			fin.close();
@@ -69,6 +69,7 @@ public class Server {
 		}
 		return rval;
 	}
+	
 	//Update: Update tag status
 	public void update(int TagID, boolean IsLost) {
 		/* Part of databse CRUD, Update will change the sign on an indicated TagID.
@@ -101,6 +102,7 @@ public class Server {
 		// Write back all records with the modified record
 		writeback(Records);
 	}
+	
 	//Delete: Delete tag from database
 	public void delete(int TagID) {
 		/* Part of database CRUD, Delete removes a record from the database.
@@ -127,6 +129,7 @@ public class Server {
 		// Write back all records except the modified record
 		writeback(Records);
 	}
+	
 	private void writeback(LinkedList<String> Records) {
 		// Helper function for update and delete.
 		//System.out.println("Log: " + "writeback");
@@ -145,6 +148,7 @@ public class Server {
 			System.out.println("Exception writing: " + e.getMessage());
 		}
 	}
+	
 	public void ReportTag(String TagInfo) {
 		/* Part of the Server utility functions,
 		 * ReportTag is invoked by a cellphone that has received a tag transmission.
@@ -165,5 +169,4 @@ public class Server {
 			System.out.println("Emailing " + email + " that " + ItemDescription + " was found.");
 		}
 	}
-	//this is a test comment from Sean to test commit 123 test 
 }

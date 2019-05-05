@@ -9,7 +9,6 @@ public class dostuff {
 		s.update(1234, true); // Report item lost
 		Cellphone c = new Cellphone();
 		c.getTagInfo((new ItemTag(1234)).Transmit(), s);
-		
 		//users can add ids to server
 		//user can notify server an item is lost
 		//finder cellphone finds tagid (use Transmit and getTagInfo)
