@@ -56,6 +56,5 @@ public class Cellphone {
 		
 	}
 	
-	//change to test AGAIN x2
 	
 }
