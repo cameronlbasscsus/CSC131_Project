@@ -1,6 +1,13 @@
 public class Cellphone {
-	//Register new tags?
-	//Listen for tags
+	
+	/*This class is responsible for reporting item tags to the server. 
+	 * The cell phone is given random coordinates and an ItemTag's
+	 * information is relayed. To simulate finding the item the distance
+	 * between the item and the cell phone is calculated. If the distance
+	 * is within the limit the item is considered found and the server is 
+	 * updated with the tag's information.
+	 */
+	
 	private double GPSLat;
 	private double GPSLon;
 	private double proximity;
@@ -31,13 +38,13 @@ public class Cellphone {
 			//need to test what values are "close"
 			if(proximity != 0){
 				//tag is close, update server
-				//Server server = new Server;
+				
 				s.ReportTag(IT);		//object from dostuff.java
 				
 			}
 		}
 		
-		//Update status of a tag
+		
 	}
 	//find distance between cellphone and tag
 	//This function uses the haversine formula to calculate distance over the Earth's surface
