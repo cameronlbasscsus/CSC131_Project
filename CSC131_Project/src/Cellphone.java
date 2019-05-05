@@ -14,10 +14,10 @@ public class Cellphone {
 		GPSLat = -90.0 + Math.random() * 180.0;
 		GPSLon = -180.0 + Math.random() * 360;					
 		
-		String[] idInfo = IT.trim().split("\\st"); 		//to take care of a leading space
-		for(String e : idInfo) {
-			System.out.print("Debug: " + s);
-		}
+		String[] idInfo = IT.trim().split(" "); 		//to take care of a leading space
+//		for(String e : idInfo) {
+//			System.out.println("Debug: " + e);
+//		}
 		if(idInfo[0] == null ) {
 			System.out.println("Error: No Item Tag\n");
 		}
