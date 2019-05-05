@@ -5,6 +5,8 @@ public class dostuff {
 		}
 		
 		Server s = new Server();
+		Cellphone c = new Cellphone();
+		c.getTagInfo((new ItemTag(1234)).Transmit(), s);
 		
 		//users can add ids to server
 		//user can notify server an item is lost
