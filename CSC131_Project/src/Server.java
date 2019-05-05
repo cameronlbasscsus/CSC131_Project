@@ -37,11 +37,14 @@ public class Server {
 				fout.write(10);			//essentially \n
 				fout.flush();			//flushes output stream
 				fout.close();			//closes writing to file
+				//adds a fun little success message
+				System.out.println("Item ID " + TagID + "registered under email " + email);
 				return true;			//writing record to file worked
 			} catch(Exception e) {
 				System.out.println("Exception writing: " + e.getMessage());
 			}
 		}
+		System.out.println("Item is already in system!");
 		return false;
 	}
 	
@@ -77,23 +80,25 @@ public class Server {
 		 * a positive value indicates that the item has not been reported lost or
 		 * was reported as recovered.
 		 */
-		//System.out.println("Log: " + "update");
 		// Read all records for the target record
 		LinkedList<String> Records = new LinkedList<String>();
-		String Temp;
+		String Temp;			//will be line of info (email+ID+description)
 		String[] Temps;
 		int dummyTagID;
 		try {
 			BufferedReader fin = new BufferedReader(new FileReader(ServerDataFile));
-			//System.out.println("Log: " + "update scanning records");
-			while((Temp=fin.readLine()) != null){
-				Temps = Temp.split(" ");
+			System.out.println("Scanning records for item...");
+			while((Temp=fin.readLine()) != null){	//while the line has stuff
+				Temps = Temp.split(" ");			//split into Temps
+				//if ID!=null and item is not lost
 				if(Temps[1] != null && Math.abs(TagID) == Math.abs((dummyTagID = Integer.parseInt(Temps[1])))) {
+					//if Lost, set ID to neg, else set ID to pos
 					Temps[1] = IsLost ? Integer.toString(-dummyTagID) : Integer.toString(dummyTagID) ;
+					//sets Temp to Temps array but with spaces between each item
 					Temp = String.join(" ", Temps);
-					//System.out.println("Log: " + "record update: " + Temp);
+					System.out.println("Updated status of " + TagID + " to lost! :(");
 				}
-				Records.add(Temp);
+				Records.add(Temp);	//add lost item to records
 			}
 			fin.close();
 		} catch (Exception e) {
@@ -117,6 +122,7 @@ public class Server {
 			//System.out.println("Log: " + "delete scanning records");
 			while((Temp=fin.readLine()) != null){
 				Temps = Temp.split(" ");
+				//while id is valid and item is lost
 				if(Temps[1] != null && Math.abs(TagID) != Math.abs(Integer.parseInt(Temps[1]))) {
 					//Record to be deleted is not added
 					Records.add(Temp);
@@ -158,15 +164,16 @@ public class Server {
 		//System.out.println("Log: " + "report tag");
 		String[] Info = TagInfo.split(" "); // Parse Info "<ID> <GPSLat> <GPSLon>"
 		int foundTagID = Integer.parseInt(Info[0]);
-		String Record = read(foundTagID);
+		String Record = read(foundTagID);		//checks if valid item
 		String[] RecordInfo = Record.split(" ");
 		String email = RecordInfo[0];
-		RecordInfo[0]="";
+		RecordInfo[0]="";	//clear record
 		int TagID = Integer.parseInt(RecordInfo[1]);
-		RecordInfo[1]="";
+		RecordInfo[1]="";	//clear record
 		String ItemDescription = String.join(" ", RecordInfo).trim(); 
 		if(TagID < 0) { // If item record indicates the item is lost, send report email.
-			System.out.println("Emailing " + email + " that " + ItemDescription + " was found.");
+			System.out.println("Item found by a Finder Cellphone!");
+			System.out.println("Emailing " + email + " that " + ItemDescription + " was found!");
 		}
 	}
 }

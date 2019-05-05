@@ -4,9 +4,14 @@ public class dostuff {
 			System.out.print(s + " ");
 		}
 		
+		//create server
 		Server s = new Server();
-		s.create("cameronlbass@csus.edu", 1234, "blue jacket"); // Register Item
-		s.update(1234, true); // Report item lost
+		//registering item
+		System.out.println("Registering item...");
+		s.create("cameronlbass@csus.edu", 1234, "blue jacket");
+		//report item as lost
+		s.update(1234, true);
+		//new finder cellphone entity
 		Cellphone c = new Cellphone();
 		c.getTagInfo((new ItemTag(1234)).Transmit(), s);
 		//users can add ids to server

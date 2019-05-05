@@ -40,7 +40,6 @@ public class Cellphone {
 			//need to test what values are "close"
 			if(proximity != 0){
 				//tag is close, update server
-				
 				s.ReportTag(IT);		//object from dostuff.java
 				
 			}
