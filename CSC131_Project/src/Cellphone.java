@@ -14,7 +14,9 @@ public class Cellphone {
 	GPSLat = -90.0 + Math.random() * 180.0;
 	GPSLon = -180.0 + Math.random() * 360;
 	
-	IT = ItemTag.Transmit();						
+	ItemTag tag = new ItemTag(1234);
+	
+	IT = tag.Transmit();						
 	
 	String[] idInfo = IT.trim().split("\\st"); 		//to take care of a leading space
 	if(idInfo[0] == null ) {
@@ -30,7 +32,9 @@ public class Cellphone {
 		//need to test what values are "close"
 		if(proximity <= 100) {
 			//tag is close, update server
-			Server.ReportTag(IT);
+			//Server server = new Server;
+			
+			s.ReportTag(IT);		//object from dostuff.java
 			
 		}
 	}

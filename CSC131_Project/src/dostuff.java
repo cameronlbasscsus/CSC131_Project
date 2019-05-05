@@ -4,6 +4,8 @@ public class dostuff {
 			System.out.print(s + " ");
 		}
 		
+		Server s = new Server();
+		
 		//users can add ids to server
 		//user can notify server an item is lost
 		//finder cellphone finds tagid (use Transmit and getTagInfo)
