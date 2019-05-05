@@ -29,10 +29,9 @@ public class Cellphone {
 			proximity = disToTag(GPSLat, GPSLon, tagLat, tagLon);
 			
 			//need to test what values are "close"
-			if(proximity <= 100) {
+			if(proximity != 0){
 				//tag is close, update server
 				//Server server = new Server;
-				
 				s.ReportTag(IT);		//object from dostuff.java
 				
 			}

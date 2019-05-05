@@ -19,7 +19,7 @@ public class Server {
 //	}
 	String ServerDataFile = "db.txt";
 	public boolean create(String email, int TagID) {
-		System.out.println("Log: " + "create email id");
+		//System.out.println("Log: " + "create email id");
 		return create(email, TagID, "");
 	}
 	public boolean create(String email, int TagID, String ItemDescription) {
@@ -28,11 +28,11 @@ public class Server {
 		 * with the requirement that the TagID is unique. If the given TagID
 		 * is not unique, the record will not be added and return false.
 		 */
-		System.out.println("Log: " + "create email id desc");
+		//System.out.println("Log: " + "create email id desc");
 		String Record = email + " " + Integer.toString(TagID) + " " + ItemDescription;
 		if(read(TagID) == null) {
 			try {
-				System.out.println("Log: " + "Appending Record to DB file.");
+				//System.out.println("Log: " + "Appending Record to DB file.");
 				BufferedWriter fout = new BufferedWriter(new FileWriter(ServerDataFile,true)); // Open file for writing in Append mode
 				fout.write(Record);
 				fout.write(13);
@@ -52,12 +52,12 @@ public class Server {
 		 * indicates the status of the item. If there is no matching record, 
 		 * a null value will be returned.
 		 */
-		System.out.println("Log: " + "read id");
+		//System.out.println("Log: " + "read id");
 		String Temp, rval=null;
 		String[] Temps;
 		//Read all entries, scan for existing tag. If tag does not exist, return null.
 		try {
-			System.out.println("Log: " + "Reading DB file.");
+			//System.out.println("Log: " + "Reading DB file.");
 			BufferedReader fin = new BufferedReader(new FileReader(ServerDataFile));
 			while((Temp=fin.readLine()) != null){
 				Temps = Temp.split(" ");
@@ -76,7 +76,7 @@ public class Server {
 		 * a positive value indicates that the item has not been reported lost or
 		 * was reported as recovered.
 		 */
-		System.out.println("Log: " + "update");
+		//System.out.println("Log: " + "update");
 		// Read all records for the target record
 		LinkedList<String> Records = new LinkedList<String>();
 		String Temp;
@@ -84,12 +84,13 @@ public class Server {
 		int dummyTagID;
 		try {
 			BufferedReader fin = new BufferedReader(new FileReader(ServerDataFile));
-			System.out.println("Log: " + "update scanning records");
+			//System.out.println("Log: " + "update scanning records");
 			while((Temp=fin.readLine()) != null){
 				Temps = Temp.split(" ");
 				if(Temps[1] != null && Math.abs(TagID) == Math.abs((dummyTagID = Integer.parseInt(Temps[1])))) {
 					Temps[1] = IsLost ? Integer.toString(-dummyTagID) : Integer.toString(dummyTagID) ;
 					Temp = String.join(" ", Temps);
+					//System.out.println("Log: " + "record update: " + Temp);
 				}
 				Records.add(Temp);
 			}
@@ -104,14 +105,14 @@ public class Server {
 	public void delete(int TagID) {
 		/* Part of database CRUD, Delete removes a record from the database.
 		 */
-		System.out.println("Log: " + "delete");
+		//System.out.println("Log: " + "delete");
 		// Read all records for the target record
 		LinkedList<String> Records = new LinkedList<String>();
 		String Temp;
 		String[] Temps;
 		try {
 			BufferedReader fin = new BufferedReader(new FileReader(ServerDataFile));
-			System.out.println("Log: " + "delete scanning records");
+			//System.out.println("Log: " + "delete scanning records");
 			while((Temp=fin.readLine()) != null){
 				Temps = Temp.split(" ");
 				if(Temps[1] != null && Math.abs(TagID) != Math.abs(Integer.parseInt(Temps[1]))) {
@@ -128,11 +129,11 @@ public class Server {
 	}
 	private void writeback(LinkedList<String> Records) {
 		// Helper function for update and delete.
-		System.out.println("Log: " + "writeback");
+		//System.out.println("Log: " + "writeback");
 		// Write back all records with the modified/deleted record
 		try {
 			BufferedWriter fout = new BufferedWriter(new FileWriter(ServerDataFile));
-			System.out.println("Log: " + "writeback of db with modification");
+			//System.out.println("Log: " + "writeback of db with modification");
 			for(String Record : Records) {
 				fout.write(Record);
 				fout.write(13);
@@ -150,6 +151,7 @@ public class Server {
 		 * The TagID is processed, and if the tag has been reported missing,
 		 * an email with the relevant information is sent.
 		 */
+		//System.out.println("Log: " + "report tag");
 		String[] Info = TagInfo.split(" "); // Parse Info "<ID> <GPSLat> <GPSLon>"
 		int foundTagID = Integer.parseInt(Info[0]);
 		String Record = read(foundTagID);
