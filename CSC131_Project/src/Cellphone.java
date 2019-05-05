@@ -18,6 +18,7 @@ public class Cellphone {
 //		for(String e : idInfo) {
 //			System.out.println("Debug: " + e);
 //		}
+		
 		if(idInfo[0] == null ) {
 			System.out.println("Error: No Item Tag\n");
 		}
